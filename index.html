@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INTEGRA — Programa de Liderança e Saúde Integral</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & TOKENS ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #181816;
+  --bg-soft:  #1e1e1c;
+  --bg-mid:   #242420;
+  --gold:     #c8930a;
+  --gold-lt:  #e0b030;
+  --gold-dim: #8b6407;
+  --teal:     #1a7a7a;
+  --teal-lt:  #2aa8a8;
+  --teal-bg:  #f0fafa;
+  --white:    #ffffff;
+  --cream:    #f5f0e8;
+  --ink:      #0f172a;
+  --gray1:    #f8fafc;
+  --gray2:    #e2e8f0;
+  --gray3:    #94a3b8;
+  --red:      #9b1c1c;
+  --red-bg:   #fef2f2;
+  --grn:      #166534;
+  --grn-bg:   #f0fdf4;
+  --grn-dk:   #0f4c2a;
+  --amber:    #92400e;
+  --amb-bg:   #fffbeb;
+
+  --ff-display: 'Playfair Display', Georgia, serif;
+  --ff-body:    'DM Sans', sans-serif;
+  --ff-mono:    'DM Mono', monospace;
+
+  --radius: 6px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.12);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--ff-body);
+  background: var(--bg);
+  color: var(--white);
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ── UTILITY ───────────────────────────────────────────────────────────── */
+.gold   { color: var(--gold-lt); }
+.teal   { color: var(--teal-lt); }
+.muted  { color: var(--gray3); }
+.tag {
+  display: inline-block;
+  font-family: var(--ff-mono);
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold-dim);
+  padding: .2em .8em;
+  border-radius: 2px;
+}
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+.section-label .num {
+  width: 44px; height: 44px;
+  background: var(--gold);
+  color: var(--bg);
+  font-family: var(--ff-display);
+  font-size: 1.3rem;
+  font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.section-label h2 {
+  font-family: var(--ff-display);
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+section { padding: 6rem 0; }
+section:nth-child(even) { background: var(--bg-soft); }
+hr.divider {
+  border: none;
+  border-top: 1px solid rgba(200,147,10,.2);
+  margin: 3rem 0;
+}
+
+/* ── NAV ───────────────────────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(24,24,22,.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(200,147,10,.15);
+  padding: .9rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+nav .logo {
+  font-family: var(--ff-display);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--gold-lt);
+  letter-spacing: .04em;
+}
+nav .logo span { color: var(--gray3); font-size: .75rem; font-family: var(--ff-body); font-weight: 400; display: block; letter-spacing: .1em; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { color: var(--gray3); text-decoration: none; font-size: .88rem; font-weight: 500; transition: color .2s; }
+.nav-links a:hover { color: var(--gold-lt); }
+.nav-cta {
+  background: var(--gold);
+  color: var(--bg);
+  border: none;
+  padding: .55rem 1.4rem;
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: .85rem;
+  cursor: pointer;
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: background .2s;
+}
+.nav-cta:hover { background: var(--gold-lt); }
+
+/* ── HERO ──────────────────────────────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+  padding: 7rem 0 5rem;
+}
+.hero-glow {
+  position: absolute; top: -200px; right: -200px;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(200,147,10,.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-glow2 {
+  position: absolute; bottom: -100px; left: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(26,122,122,.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-inner {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+}
+.hero-tag { margin-bottom: 1.5rem; }
+.hero-title {
+  font-family: var(--ff-display);
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  line-height: 1.05;
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--gold-lt);
+  display: block;
+}
+.hero-desc {
+  color: var(--gray3);
+  font-size: 1.05rem;
+  margin-bottom: 2.5rem;
+  max-width: 480px;
+}
+.hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--gold);
+  color: var(--bg);
+  padding: .8rem 2rem;
+  font-weight: 700;
+  font-size: .95rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: background .2s, transform .15s;
+  border: none; cursor: pointer;
+}
+.btn-primary:hover { background: var(--gold-lt); transform: translateY(-1px); }
+.btn-ghost {
+  background: transparent;
+  color: var(--gray3);
+  padding: .8rem 2rem;
+  font-weight: 500;
+  font-size: .95rem;
+  border: 1px solid rgba(148,163,184,.3);
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: border-color .2s, color .2s;
+}
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold-lt); }
+/* Hero card */
+.hero-card {
+  background: var(--bg-soft);
+  border: 1px solid rgba(200,147,10,.2);
+  border-radius: 8px;
+  padding: 2.5rem;
+  position: relative;
+}
+.hero-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: var(--gold);
+  border-radius: 8px 0 0 8px;
+}
+.hero-card-title {
+  font-family: var(--ff-mono);
+  font-size: .75rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+.tagline-list { list-style: none; }
+.tagline-list li {
+  padding: .7rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  color: var(--cream);
+  font-size: 1rem;
+  display: flex; align-items: center; gap: .7rem;
+}
+.tagline-list li:last-child { border-bottom: none; }
+.tagline-list li::before {
+  content: '›';
+  color: var(--gold);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+.hero-badges {
+  display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1.8rem;
+}
+.badge {
+  font-family: var(--ff-mono);
+  font-size: .7rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .35em .9em;
+  border-radius: 3px;
+  font-weight: 500;
+}
+.badge-gold   { background: rgba(200,147,10,.15); color: var(--gold-lt); border: 1px solid rgba(200,147,10,.3); }
+.badge-teal   { background: rgba(26,122,122,.15); color: var(--teal-lt); border: 1px solid rgba(26,122,122,.3); }
+.badge-white  { background: rgba(255,255,255,.06); color: var(--gray3); border: 1px solid rgba(255,255,255,.12); }
+
+/* ── NR-1 ALERT ────────────────────────────────────────────────────────── */
+.nr1-bar {
+  background: linear-gradient(135deg, #1a0a00, #2a1000);
+  border-top: 1px solid rgba(200,147,10,.3);
+  border-bottom: 1px solid rgba(200,147,10,.3);
+  padding: 1.2rem 2rem;
+  text-align: center;
+}
+.nr1-bar strong { color: var(--gold-lt); }
+.nr1-bar span { color: var(--gray3); font-size: .9rem; }
+
+/* ── QUEM SOMOS ────────────────────────────────────────────────────────── */
+.specialists-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+}
+.spec-card {
+  border-radius: 8px;
+  overflow: hidden;
+}
+.spec-card-head {
+  padding: 1.2rem 1.5rem;
+  font-family: var(--ff-mono);
+  font-size: .72rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.spec-card-head.lideranca { background: var(--bg); color: var(--gold); }
+.spec-card-head.saude     { background: var(--teal); color: var(--white); }
+.spec-card-body {
+  padding: 1.8rem;
+  background: var(--bg-soft);
+  border: 1px solid rgba(255,255,255,.06);
+  border-top: none;
+}
+.spec-card-body p { color: var(--gray3); font-size: .95rem; margin-bottom: 1rem; }
+.spec-card-body p strong { color: var(--white); }
+.spec-tag {
+  font-size: .82rem;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: .4rem;
+}
+.spec-pillars {
+  font-size: .85rem;
+  color: var(--gray3);
+  line-height: 1.8;
+}
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+.stat-box {
+  background: var(--bg-soft);
+  border: 1px solid rgba(255,255,255,.06);
+  border-left: 3px solid var(--gold);
+  padding: 1.2rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.stat-box .num {
+  font-family: var(--ff-display);
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--gold-lt);
+  line-height: 1;
+}
+.stat-box .lbl { font-size: .82rem; color: var(--gray3); margin-top: .3rem; }
+
+/* ── METODOLOGIA ───────────────────────────────────────────────────────── */
+.metodologia-intro {
+  color: var(--gray3);
+  font-size: 1.05rem;
+  max-width: 680px;
+  margin-bottom: 3.5rem;
+}
+.esfera-head {
+  font-family: var(--ff-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1.8rem;
+  padding-bottom: .8rem;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.esfera-head.lideranca { color: var(--cream); }
+.esfera-head.saude     { color: var(--teal-lt); }
+
+.pilares-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;
+  margin-bottom: 4rem;
+}
+.pilar-card {
+  background: var(--bg-soft);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: var(--radius);
+  display: flex; gap: 0;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.pilar-card:hover { border-color: rgba(200,147,10,.3); }
+.pilar-letter {
+  width: 48px;
+  background: rgba(200,147,10,.1);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-display);
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--gold-lt);
+  flex-shrink: 0;
+}
+.pilar-body { padding: 1.2rem; }
+.pilar-body h4 { font-size: .95rem; font-weight: 600; margin-bottom: .4rem; color: var(--white); }
+.pilar-body p  { font-size: .87rem; color: var(--gray3); line-height: 1.6; }
+
+.eixos-grid {
+  display: flex; flex-direction: column; gap: .8rem;
+}
+.eixo-item {
+  display: flex; gap: 0;
+  background: var(--bg-soft);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.eixo-item:hover { border-color: rgba(26,122,122,.4); }
+.eixo-num {
+  width: 52px;
+  background: var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-display);
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--white);
+  flex-shrink: 0;
+}
+.eixo-body { padding: 1rem 1.4rem; }
+.eixo-body h4 { font-size: .95rem; font-weight: 600; color: var(--teal-lt); margin-bottom: .2rem; }
+.eixo-body p  { font-size: .85rem; color: var(--gray3); line-height: 1.55; }
+
+/* ── 13 FATORES ───────────────────────────────────────────────────────── */
+.fatores-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+}
+.fator-card {
+  background: var(--bg-soft);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  display: flex; gap: .8rem; align-items: flex-start;
+  transition: border-color .2s;
+}
+.fator-card:hover { border-color: rgba(26,122,122,.3); }
+.fator-num {
+  font-family: var(--ff-mono);
+  font-size: .75rem;
+  color: var(--teal-lt);
+  font-weight: 600;
+  min-width: 28px;
+  padding-top: .15rem;
+}
+.fator-txt { font-size: .87rem; color: var(--gray3); line-height: 1.5; }
+.fator-txt strong { color: var(--white); display: block; margin-bottom: .2rem; font-size: .9rem; }
+
+/* ── ENTREGÁVEIS ─────────────────────────────────────────────────────── */
+.entregaveis-list { display: flex; flex-direction: column; gap: 1.2rem; }
+.entregavel {
+  display: flex; gap: 0;
+  background: var(--bg-soft);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.e-badge {
+  width: 60px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-display);
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--white);
+  flex-shrink: 0;
+}
+.e-body { padding: 1.2rem 1.6rem; flex: 1; }
+.e-body h4 { font-size: 1rem; font-weight: 600; margin-bottom: .3rem; }
+.e-body p  { font-size: .88rem; color: var(--gray3); margin-bottom: .5rem; }
+.e-ref {
+  font-family: var(--ff-mono);
+  font-size: .72rem;
+  letter-spacing: .06em;
+  font-weight: 600;
+}
+
+/* ── O PROBLEMA ──────────────────────────────────────────────────────── */
+#problema { background: var(--bg); }
+.problema-intro { color: var(--gray3); font-size: .9rem; font-style: italic; margin-bottom: 2.5rem; }
+.impactos-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+.impacto-card {
+  border-radius: var(--radius);
+  padding: 1.5rem 1.8rem;
+  border-left: 4px solid;
+  position: relative;
+  overflow: hidden;
+}
+.impacto-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,.02), transparent);
+}
+.impacto-card.red   { background: var(--red-bg); border-color: var(--red); }
+.impacto-card.amber { background: var(--amb-bg); border-color: var(--amber); }
+.impacto-card.teal  { background: var(--teal-bg); border-color: var(--teal); }
+.impacto-valor {
+  font-family: var(--ff-display);
+  font-size: 1.8rem;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: .2rem;
+}
+.impacto-card.red   .impacto-valor { color: var(--red); }
+.impacto-card.amber .impacto-valor { color: var(--amber); }
+.impacto-card.teal  .impacto-valor { color: var(--teal); }
+.impacto-label { font-size: .8rem; font-style: italic; color: var(--gray3); margin-bottom: .6rem; }
+.impacto-desc  { font-size: .88rem; color: var(--ink); }
+.impacto-full {
+  border-radius: var(--radius);
+  padding: 1.5rem 1.8rem;
+  border-left: 4px solid var(--teal);
+  background: var(--teal-bg);
+  display: flex; align-items: center; gap: 3rem;
+}
+.conclusao-box {
+  background: var(--bg-soft);
+  border: 1px solid rgba(200,147,10,.3);
+  border-left: 5px solid var(--gold);
+  padding: 1.8rem 2rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  margin-top: 2rem;
+}
+.conclusao-box p { font-size: 1.05rem; color: var(--cream); line-height: 1.6; }
+
+/* ── FAP ─────────────────────────────────────────────────────────────── */
+.fap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.fap-card {
+  background: var(--bg-soft);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.fap-card-head {
+  padding: 1rem 1.5rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.fap-icon {
+  font-family: var(--ff-display);
+  font-size: 1.1rem;
+  font-weight: 900;
+  padding: .4rem .9rem;
+  border-radius: 3px;
+}
+.fap-card-body { padding: 1.5rem; }
+.fap-card-body p { font-size: .9rem; color: var(--gray3); margin-bottom: 1rem; }
+.fap-rates { display: flex; flex-direction: column; gap: .6rem; margin-bottom: 1.2rem; }
+.fap-rate {
+  display: flex; align-items: center; gap: .8rem;
+  padding: .6rem 1rem;
+  border-radius: var(--radius);
+  font-size: .9rem;
+}
+.fap-rate.bad  { background: var(--red-bg); color: var(--red); }
+.fap-rate.good { background: var(--grn-bg); color: var(--grn); }
+.fap-rate strong { font-size: 1rem; }
+.fap-highlight {
+  background: rgba(200,147,10,.1);
+  border: 1px solid rgba(200,147,10,.2);
+  padding: .8rem 1rem;
+  border-radius: var(--radius);
+  font-size: .9rem;
+  color: var(--gold-lt);
+}
+.fap-footer {
+  background: var(--teal);
+  padding: 1rem 1.5rem;
+  font-size: .88rem;
+  color: var(--white);
+}
+/* Lei 14831 */
+.lei-card {
+  background: var(--bg-soft);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.lei-head { background: var(--grn-dk); padding: 1rem 1.5rem; }
+.lei-head h3 { font-size: 1rem; font-weight: 700; color: var(--white); }
+.lei-head span { font-size: .82rem; color: rgba(187,247,208,.7); }
+.lei-intro { padding: 1.2rem 1.5rem; background: var(--grn-bg); font-size: .9rem; color: var(--ink); border-bottom: 1px solid rgba(22,101,52,.2); }
+.lei-intro strong { color: var(--grn); }
+.lei-beneficios {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+}
+.lei-ben {
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  border-right: 1px solid rgba(255,255,255,.05);
+}
+.lei-ben:nth-child(even) { border-right: none; }
+.lei-ben:nth-child(3),
+.lei-ben:nth-child(4)    { border-bottom: none; }
+.lei-ben h5 { font-size: .88rem; font-weight: 600; color: var(--grn-bg); margin-bottom: .3rem; }
+.lei-ben p  { font-size: .82rem; color: var(--gray3); }
+.lei-footer { background: var(--grn-dk); padding: 1rem 1.5rem; font-size: .88rem; color: var(--white); }
+
+/* ── INVESTIMENTO ────────────────────────────────────────────────────── */
+#investimento { background: var(--bg-soft); }
+.planos-desc {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.plano-desc-card {
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-align: center;
+}
+.plano-desc-card.essencial { background: rgba(200,147,10,.08); border: 1px solid rgba(200,147,10,.2); }
+.plano-desc-card.integral  { background: var(--teal); border: 1px solid var(--teal); }
+.plano-desc-card.premium   { background: rgba(26,58,90,.6); border: 1px solid rgba(26,122,122,.3); }
+.plano-desc-card h3 {
+  font-family: var(--ff-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: .6rem;
+}
+.plano-desc-card.essencial h3 { color: var(--gold-lt); }
+.plano-desc-card.integral  h3 { color: var(--white); }
+.plano-desc-card.premium   h3 { color: var(--gold-lt); }
+.plano-meta { font-size: .95rem; font-weight: 600; margin-bottom: .3rem; }
+.plano-desc-card.essencial .plano-meta { color: var(--white); }
+.plano-desc-card.integral  .plano-meta { color: var(--white); }
+.plano-desc-card.premium   .plano-meta { color: var(--white); }
+.plano-fmt { font-size: .82rem; color: rgba(255,255,255,.5); }
+
+/* Tabela de preços */
+.preco-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.preco-table th {
+  background: var(--bg);
+  color: var(--white);
+  padding: .9rem 1.2rem;
+  font-size: .82rem;
+  font-family: var(--ff-mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  text-align: center;
+}
+.preco-table th:first-child { text-align: left; }
+.preco-table td {
+  padding: .9rem 1.2rem;
+  font-size: .92rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+.preco-table td:first-child { text-align: left; color: var(--gray3); }
+.preco-table tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+.preco-table .col-integral td { background: var(--teal) !important; color: var(--white) !important; font-weight: 700; }
+.price-val { font-family: var(--ff-display); font-size: 1.1rem; font-weight: 700; color: var(--white); }
+.col-integral .price-val { color: var(--white); }
+.price-sub { font-size: .75rem; color: var(--gray3); display: block; margin-top: .15rem; }
+.col-integral .price-sub { color: rgba(255,255,255,.6); }
+
+/* Modalidade C */
+.modal-c {
+  background: var(--bg-soft);
+  border: 1px solid rgba(200,147,10,.2);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 3rem;
+}
+.modal-c-head { background: rgba(146,64,14,.15); padding: 1.2rem 1.8rem; border-bottom: 1px solid rgba(146,64,14,.3); }
+.modal-c-head h3 { font-size: 1.05rem; font-weight: 700; color: var(--gold-lt); }
+.modal-c-head p  { font-size: .85rem; color: var(--gray3); margin-top: .3rem; }
+.modal-c-body {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+}
+.modal-c-row {
+  padding: 1.5rem 1.8rem;
+  border-right: 1px solid rgba(255,255,255,.06);
+}
+.modal-c-row:last-child { border-right: none; }
+.modal-c-row h4 { font-size: .9rem; color: var(--white); font-weight: 600; margin-bottom: .5rem; }
+.modal-c-row p  { font-size: .85rem; color: var(--gray3); margin-bottom: 1rem; }
+.modal-c-price {
+  font-family: var(--ff-display);
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--gold-lt);
+}
+.modal-c-price span { font-size: .8rem; font-family: var(--ff-body); color: var(--gray3); display: block; }
+.modal-c-nota { padding: 1rem 1.8rem; background: var(--bg); font-size: .85rem; color: var(--gray3); border-top: 1px solid rgba(255,255,255,.06); }
+.modal-c-nota strong { color: var(--gold); }
+
+/* ── PRÓXIMOS PASSOS ─────────────────────────────────────────────────── */
+.passos-list { display: flex; flex-direction: column; gap: 1.2rem; max-width: 780px; }
+.passo {
+  display: flex; gap: 0;
+  background: var(--bg-soft);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.passo:hover { border-color: rgba(26,122,122,.35); }
+.passo-num {
+  width: 64px;
+  background: var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-display);
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--white);
+  flex-shrink: 0;
+}
+.passo:last-child .passo-num { background: var(--bg); color: var(--gold); }
+.passo-body { padding: 1.2rem 1.6rem; }
+.passo-body h4 { font-size: 1rem; font-weight: 600; color: var(--white); margin-bottom: .3rem; }
+.passo-body p  { font-size: .88rem; color: var(--gray3); }
+
+/* ── CTA FINAL ──────────────────────────────────────────────────────── */
+#cta {
+  background: var(--bg);
+  padding: 7rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+#cta::before {
+  content: 'INTEGRA';
+  position: absolute;
+  font-family: var(--ff-display);
+  font-size: 18vw;
+  font-weight: 900;
+  color: rgba(200,147,10,.03);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: -.05em;
+}
+.cta-inner { position: relative; z-index: 1; }
+.cta-inner h2 {
+  font-family: var(--ff-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  margin-bottom: 1rem;
+  color: var(--gold-lt);
+}
+.cta-inner p { font-size: 1.05rem; color: var(--gray3); margin-bottom: 2.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+.cta-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.cta-detail {
+  margin-top: 3rem;
+  font-size: .85rem;
+  color: var(--gray3);
+}
+.cta-detail a { color: var(--gold); text-decoration: none; }
+
+/* ── FOOTER ─────────────────────────────────────────────────────────── */
+footer {
+  background: var(--bg-soft);
+  border-top: 1px solid rgba(255,255,255,.06);
+  padding: 2.5rem 0;
+}
+.footer-inner {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+}
+.footer-logo {
+  font-family: var(--ff-display);
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--gold-lt);
+}
+.footer-info { font-size: .82rem; color: var(--gray3); }
+.footer-info a { color: var(--gold); text-decoration: none; }
+.footer-badges { display: flex; gap: .5rem; }
+
+/* ── ANIMATIONS ─────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { opacity: 0; animation: fadeUp .6s ease forwards; }
+.fade-up.d1 { animation-delay: .1s; }
+.fade-up.d2 { animation-delay: .22s; }
+.fade-up.d3 { animation-delay: .34s; }
+.fade-up.d4 { animation-delay: .46s; }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .hero-inner       { grid-template-columns: 1fr; gap: 3rem; }
+  .specialists-grid { grid-template-columns: 1fr; }
+  .pilares-grid     { grid-template-columns: 1fr; }
+  .fatores-grid     { grid-template-columns: 1fr 1fr; }
+  .impactos-grid    { grid-template-columns: 1fr; }
+  .fap-grid         { grid-template-columns: 1fr; }
+  .planos-desc      { grid-template-columns: 1fr; }
+  .modal-c-body     { grid-template-columns: 1fr; }
+  .lei-beneficios   { grid-template-columns: 1fr; }
+  .stats-row        { grid-template-columns: 1fr 1fr; }
+  .nav-links        { display: none; }
+}
+@media (max-width: 580px) {
+  .fatores-grid     { grid-template-columns: 1fr; }
+  .stats-row        { grid-template-columns: 1fr 1fr; }
+  section           { padding: 4rem 0; }
+  .preco-table td,
+  .preco-table th   { padding: .6rem .8rem; font-size: .78rem; }
+  .price-val        { font-size: .9rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    INTEGRA
+    <span>Liderança e Saúde Integral</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#quem-somos">Quem Somos</a></li>
+    <li><a href="#metodologia">Metodologia</a></li>
+    <li><a href="#entregaveis">Entregáveis</a></li>
+    <li><a href="#problema">O Problema</a></li>
+    <li><a href="#investimento">Investimento</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Agendar Reunião</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="padding-top:7rem">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-tag fade-up d1">
+          <span class="tag">NR-1 · Portaria MTE 1.419/2024</span>
+        </div>
+        <h1 class="hero-title fade-up d2">
+          Liderança que cuida.<br>
+          <em>Saúde que performa.</em>
+          Proteção para o que importa.
+        </h1>
+        <p class="hero-desc fade-up d3">
+          O INTEGRA é o único programa de mentoria executiva que combina liderança consciente e saúde integral em uma metodologia que gera entregáveis técnicos para o PGR, em conformidade com a NR-1.
+        </p>
+        <div class="hero-ctas fade-up d4">
+          <a href="#cta" class="btn-primary">Agendar reunião gratuita</a>
+          <a href="#metodologia" class="btn-ghost">Conhecer a metodologia</a>
+        </div>
+      </div>
+
+      <div class="hero-card fade-up d3">
+        <div class="hero-card-title">O que sua empresa recebe</div>
+        <ul class="tagline-list">
+          <li>Conformidade com a NR-1 documentada e auditável</li>
+          <li>Redução de afastamentos e sinistralidade</li>
+          <li>Executivos com mais desempenho e menos risco de burnout</li>
+          <li>4 entregáveis técnicos para inserção direta no PGR</li>
+          <li>Certificação para a Lei 14.831/2024 (Saúde Mental)</li>
+          <li>FAP menor = folha de pagamento mais barata</li>
+        </ul>
+        <div class="hero-badges">
+          <span class="badge badge-gold">CRN + CREF</span>
+          <span class="badge badge-teal">6 anos de metodologia</span>
+          <span class="badge badge-white">100% avaliações 5★</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NR-1 BAR -->
+<div class="nr1-bar">
+  <span>⚠️ <strong>26 de maio de 2026:</strong> fiscalização punitiva da NR-1 em vigor. Multas de <strong>R$ 2.396 a R$ 6.708 por trabalhador exposto</strong>. Em reincidência, até 50× o valor. </span>
+</div>
+
+<!-- QUEM SOMOS -->
+<section id="quem-somos">
+  <div class="container">
+    <div class="section-label">
+      <div class="num">1</div>
+      <h2>Quem Somos</h2>
+    </div>
+    <div class="specialists-grid">
+      <div class="spec-card">
+        <div class="spec-card-head lideranca">Especialista em Liderança e Gestão</div>
+        <div class="spec-card-body">
+          <p><strong>Experiência prática comprovada</strong> em liderança e gestão organizacional. Atua no desenvolvimento de executivos que enfrentam alta pressão, ambientes de incerteza e demandas emocionais complexas.</p>
+          <div class="spec-tag">Metodologia: Método A.L.M.A.</div>
+          <div class="spec-pillars">
+            Autenticidade sob Pressão · Leitura de Impacto · Modulação Emocional Consciente · Autonomia Compartilhada
+          </div>
+        </div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-card-head saude">Especialista em Saúde Integral</div>
+        <div class="spec-card-body">
+          <p><strong>Nutricionista e Profissional de Educação Física.</strong> Ex-pesquisadora da Fiocruz e do Hospital das Clínicas. Autora de livro publicado sobre saúde integrativa. Metodologia com embasamento científico aplicada há 6 anos.</p>
+          <div class="spec-tag" style="color:var(--teal-lt)">Metodologia: Os 5 Eixos da Saúde Integral</div>
+          <div class="spec-pillars">
+            Sono · Alimentação · Atividade Física (CREF) · Saúde Intestinal · Saúde Mental
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="num">2</div><div class="lbl">especialistas com registro profissional ativo (CRN + CREF)</div></div>
+      <div class="stat-box"><div class="num">6+</div><div class="lbl">anos de metodologia aplicada com resultados comprovados</div></div>
+      <div class="stat-box"><div class="num">100%</div><div class="lbl">de avaliações 5 estrelas no Google</div></div>
+      <div class="stat-box"><div class="num">13</div><div class="lbl">fatores psicossociais MTE cobertos documentadamente</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- METODOLOGIA -->
+<section id="metodologia">
+  <div class="container">
+    <div class="section-label">
+      <div class="num">3</div>
+      <h2>Como Atuamos: A Metodologia INTEGRA</h2>
+    </div>
+    <p class="metodologia-intro">
+      O INTEGRA resolve dois problemas que as empresas pagam caro por ignorar: executivos que não entregam seu potencial máximo porque estão esgotados ou mal gerenciados, e empresas expostas a multas, afastamentos e ações trabalhistas por não cumprir as exigências da NR-1. Atuamos em duas esferas integradas que se reforçam mutuamente.
+    </p>
+
+    <div class="esfera-head lideranca">Esfera 1: Método A.L.M.A. e a Liderança Consciente</div>
+    <div class="pilares-grid">
+      <div class="pilar-card">
+        <div class="pilar-letter">A</div>
+        <div class="pilar-body">
+          <h4>Autenticidade sob Pressão</h4>
+          <p>Reduz compensação emocional, comunicação agressiva e decisões impulsivas que alimentam conflitos internos e processos trabalhistas.</p>
+        </div>
+      </div>
+      <div class="pilar-card">
+        <div class="pilar-letter">L</div>
+        <div class="pilar-body">
+          <h4>Leitura de Impacto</h4>
+          <p>Percepção dos sinais da equipe para ajustar a comunicação conforme a responsividade das pessoas. Menos conflitos, menos afastamentos, menor rotatividade.</p>
+        </div>
+      </div>
+      <div class="pilar-card">
+        <div class="pilar-letter">M</div>
+        <div class="pilar-body">
+          <h4>Modulação Emocional Consciente</h4>
+          <p>Ferramentas práticas de regulação aplicáveis antes de reuniões, decisões críticas e situações de crise. Reduz o estresse organizacional classificado como risco pela NR-1.</p>
+        </div>
+      </div>
+      <div class="pilar-card">
+        <div class="pilar-letter">A</div>
+        <div class="pilar-body">
+          <h4>Autonomia Compartilhada</h4>
+          <p>Cultura de delegação com direção: libera o executivo para o nível estratégico e reduz risco de burnout por acúmulo de função.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="esfera-head saude" style="margin-top:1rem">Esfera 2: Os 5 Eixos da Saúde Integral</div>
+    <div class="eixos-grid">
+      <div class="eixo-item">
+        <div class="eixo-num">1</div>
+        <div class="eixo-body">
+          <h4>Sono e Recuperação</h4>
+          <p>Executivos com sono comprometido têm cortisol cronicamente elevado, aumentando em até 40% o risco de hipertensão, diabetes tipo 2 e burnout. Protocolo individualizado desde a primeira sessão.</p>
+        </div>
+      </div>
+      <div class="eixo-item">
+        <div class="eixo-num">2</div>
+        <div class="eixo-body">
+          <h4>Alimentação e Performance Cognitiva</h4>
+          <p>A alimentação inadequada compromete diretamente o desempenho cognitivo e a tomada de decisão. Orientamos escolhas que estabilizam energia e reduzem afastamentos por doenças crônicas.</p>
+        </div>
+      </div>
+      <div class="eixo-item">
+        <div class="eixo-num">3</div>
+        <div class="eixo-body">
+          <h4>Atividade Física e Prevenção de Doenças</h4>
+          <p>Supervisão profissional CREF para orientação individualizada. Previne doenças cardiovasculares, ansiedade e síndrome metabólica, causas de afastamento prolongado.</p>
+        </div>
+      </div>
+      <div class="eixo-item">
+        <div class="eixo-num">4</div>
+        <div class="eixo-body">
+          <h4>Saúde Intestinal e Imunidade</h4>
+          <p>Via nervo vago: o desequilíbrio intestinal afeta humor, energia e imunidade, elevando o absenteísmo e a sinistralidade no plano de saúde. Identificamos e tratamos antes que resulte em afastamentos.</p>
+        </div>
+      </div>
+      <div class="eixo-item">
+        <div class="eixo-num">5</div>
+        <div class="eixo-body">
+          <h4>Saúde Mental e Regulação Emocional</h4>
+          <p>Burnout, estresse crônico e ansiedade são a principal causa de afastamento no Brasil. Atuação preventiva ativa. Laudos formais encaminhados a parceiros habilitados (CRP) quando necessário.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 FATORES -->
+<section id="fatores">
+  <div class="container">
+    <div class="section-label">
+      <div class="num">4</div>
+      <h2>Como Cobrimos os 13 Fatores Psicossociais da NR-1</h2>
+    </div>
+    <p style="color:var(--gray3); margin-bottom:2rem; font-size:.95rem">
+      O Guia de Fatores de Riscos Psicossociais do MTE exige que os 13 fatores abaixo constem no PGR. O INTEGRA atua em todos, com documentação auditável pela Inspeção do Trabalho.
+    </p>
+    <div class="fatores-grid">
+      <div class="fator-card"><div class="fator-num">01</div><div class="fator-txt"><strong>Sobrecarga e metas abusivas</strong>Modulação Emocional, protocolos de sono e alimentação estável para alta demanda.</div></div>
+      <div class="fator-card"><div class="fator-num">02</div><div class="fator-txt"><strong>Exigências emocionais excessivas</strong>Autenticidade sob Pressão e técnicas de regulação emocional aplicadas à rotina.</div></div>
+      <div class="fator-card"><div class="fator-num">03</div><div class="fator-txt"><strong>Falta de apoio da liderança</strong>Leitura de Impacto e Autonomia Compartilhada: o executivo como agente de suporte psicossocial.</div></div>
+      <div class="fator-card"><div class="fator-num">04</div><div class="fator-txt"><strong>Percepção de injustiça</strong>Comunicação ajustada à responsividade para preservar percepção de equidade.</div></div>
+      <div class="fator-card"><div class="fator-num">05</div><div class="fator-txt"><strong>Assédio moral ou sexual</strong>Comunicação Não Violenta + evidência de capacitação formal (Lei 14.457/2022).</div></div>
+      <div class="fator-card"><div class="fator-num">06</div><div class="fator-txt"><strong>Conflito vida pessoal × trabalho</strong>Os 5 eixos de saúde + Autonomia Compartilhada atuam diretamente neste fator.</div></div>
+      <div class="fator-card"><div class="fator-num">07</div><div class="fator-txt"><strong>Insegurança quanto à estabilidade</strong>Ancoragem emocional em cenários de incerteza e mudança organizacional.</div></div>
+      <div class="fator-card"><div class="fator-num">08</div><div class="fator-txt"><strong>Falta de clareza nas funções</strong>Estruturação de papéis e responsabilidades, reduzindo o acúmulo e a ambiguidade.</div></div>
+      <div class="fator-card"><div class="fator-num">09</div><div class="fator-txt"><strong>Baixa autonomia sobre o trabalho</strong>Cultura de delegação com direção que libera a equipe e reduz o acúmulo do executivo.</div></div>
+      <div class="fator-card"><div class="fator-num">10</div><div class="fator-txt"><strong>Jornadas prolongadas</strong>Sono e Atividade Física: avaliação do impacto na recuperação. Gestão de energia ao longo do dia.</div></div>
+      <div class="fator-card"><div class="fator-num">11</div><div class="fator-txt"><strong>Violência no trabalho</strong>CNV e Leitura de Impacto: identificação precoce de padrões agressivos na liderança.</div></div>
+      <div class="fator-card"><div class="fator-num">12</div><div class="fator-txt"><strong>Isolamento e falta de suporte</strong>Criação de ambientes de pertencimento. Práticas coletivas fortalecem vínculos interpessoais.</div></div>
+      <div class="fator-card"><div class="fator-num">13</div><div class="fator-txt"><strong>Condições que geram estresse crônico</strong>Os 5 eixos reduzem a vulnerabilidade ao estresse ambiental antes que resulte em afastamento.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ENTREGÁVEIS -->
+<section id="entregaveis">
+  <div class="container">
+    <div class="section-label">
+      <div class="num">5</div>
+      <h2>Entregáveis para o PGR da sua Empresa</h2>
+    </div>
+    <p style="color:var(--gray3); margin-bottom:2.5rem; max-width:700px">
+      Todos os planos incluem documentação técnica estruturada para inserção direta no PGR, assinada pelos especialistas com registros profissionais ativos (CRN e CREF). A NR-1 exige metodologia documentada e validada, não apenas questionários de clima.
+    </p>
+    <div class="entregaveis-list">
+      <div class="entregavel">
+        <div class="e-badge" style="background:var(--bg)">E1</div>
+        <div class="e-body">
+          <h4 style="color:var(--white)">Inventário de Riscos Psicossociais (IRP)</h4>
+          <p>Documento obrigatório pela NR-1 (subitem 1.5.7.1-a). Cobre os 13 fatores MTE com pontuação quantitativa por fator e por Grupo Homogêneo de Exposição. Inclui identificação de perigos, avaliação de severidade e probabilidade, e análise técnica narrativa. Assinado pelos especialistas (CRN e CREF).</p>
+          <div class="e-ref" style="color:var(--gold)">Subitens 1.5.3, 1.5.4 e 1.5.7.1-a — Inventário de Riscos obrigatório</div>
+        </div>
+      </div>
+      <div class="entregavel">
+        <div class="e-badge" style="background:var(--teal)">E2</div>
+        <div class="e-body">
+          <h4 style="color:var(--teal-lt)">Registro de Implementação e Monitoramento das Medidas de Prevenção</h4>
+          <p>Exigido pelo subitem 1.5.5.3.2. Registra medidas implementadas, verificação das ações planejadas e continuidade da aplicação. Inclui evolução dos indicadores por eixo de saúde e horas de capacitação. Emitido mensalmente durante o ciclo.</p>
+          <div class="e-ref" style="color:var(--teal-lt)">Subitem 1.5.5.3.2 — acompanhamento planejado das medidas de prevenção</div>
+        </div>
+      </div>
+      <div class="entregavel">
+        <div class="e-badge" style="background:var(--amber)">E3</div>
+        <div class="e-body">
+          <h4 style="color:var(--gold)">Plano de Ação de Prevenção de Riscos Psicossociais</h4>
+          <p>Documento obrigatório pela NR-1 (subitem 1.5.7.1-b). Metodologia 5W2H. Para cada risco identificado: medida preventiva específica, cronograma com responsável, forma de acompanhamento e indicador de resultado mensurável.</p>
+          <div class="e-ref" style="color:var(--gold)">Subitens 1.5.5.2 e 1.5.7.1-b — Plano de Ação obrigatório do PGR</div>
+        </div>
+      </div>
+      <div class="entregavel">
+        <div class="e-badge" style="background:var(--grn)">E4</div>
+        <div class="e-body">
+          <h4 style="color:#4ade80">Relatório de Evolução Final com Comparativo</h4>
+          <p>Emitido ao final do Mês 3. Atende ao ciclo de revisão obrigatório da NR-1. Comparativo inicial versus final por fator psicossocial, avaliação de riscos residuais, eficácia das medidas e recomendações para o próximo ciclo do PGR.</p>
+          <div class="e-ref" style="color:#4ade80">Subitens 1.5.4.4.6, 1.5.5.3.2 e 1.5.7.3.3 — revisão periódica e inventário atualizado</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- O PROBLEMA -->
+<section id="problema">
+  <div class="container">
+    <div class="section-label">
+      <div class="num">2</div>
+      <h2>O Problema: O Custo de Não Agir</h2>
+    </div>
+    <p class="problema-intro">
+      Fontes: NR-1 (Portaria MTE 1.419/2024) · Tabela de penalidades MTE/2026 · Dados INSS · Estimativas McKinsey Global Institute
+    </p>
+    <div class="impactos-grid">
+      <div class="impacto-card red">
+        <div class="impacto-valor">R$ 2.396 a R$ 6.708</div>
+        <div class="impacto-label">por executivo autuado</div>
+        <div class="impacto-desc">Multa por item da NR-1 não atendido, por trabalhador exposto. Em reincidência, até 50 vezes o valor original.</div>
+      </div>
+      <div class="impacto-card red">
+        <div class="impacto-valor">R$ 30.000 a R$ 150.000+</div>
+        <div class="impacto-label">por ação trabalhista</div>
+        <div class="impacto-desc">Custo médio de processo por burnout, assédio ou adoecimento ocupacional, sem contar honorários e passivo reputacional.</div>
+      </div>
+      <div class="impacto-card amber">
+        <div class="impacto-valor">R$ 15.000 a R$ 40.000</div>
+        <div class="impacto-label">por afastamento de executivo</div>
+        <div class="impacto-desc">Produtividade perdida, substituição temporária, encargos previdenciários e impacto em cascata na equipe.</div>
+      </div>
+      <div class="impacto-card amber">
+        <div class="impacto-valor">até 200% do salário anual</div>
+        <div class="impacto-label">por substituição de executivo</div>
+        <div class="impacto-desc">Custo real de turnover: recrutamento, onboarding, curva de aprendizado e perda de capital relacional.</div>
+      </div>
+    </div>
+    <div class="impacto-full">
+      <div>
+        <div class="impacto-valor" style="color:var(--teal);font-family:var(--ff-display);font-size:1.8rem;font-weight:900">Queda de 20 a 30%</div>
+        <div class="impacto-label" style="color:var(--gray3);font-style:italic;font-size:.82rem">na produtividade individual · McKinsey</div>
+      </div>
+      <p style="color:var(--ink);font-size:.95rem;flex:1">
+        Executivos em burnout ou estresse crônico não tratado têm desempenho comprometido de forma mensurável, impactando diretamente os resultados da área e da empresa.
+      </p>
+    </div>
+    <div class="conclusao-box">
+      <p>Investir no INTEGRA é mais vantajoso do que enfrentar qualquer um desses cenários. Cada item desta lista, individualmente, já cobre o custo do programa completo.</p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- FAP + Lei 14831 -->
+    <div class="fap-grid" style="margin-top:3rem">
+      <!-- FAP -->
+      <div class="fap-card">
+        <div class="fap-card-head" style="background:rgba(200,147,10,.1); border-bottom:1px solid rgba(200,147,10,.2)">
+          <div class="fap-icon" style="background:var(--gold);color:var(--bg)">FAP</div>
+          <div>
+            <div style="font-weight:700;font-size:.95rem">Fator Acidentário de Prevenção</div>
+            <div style="font-size:.8rem;color:var(--gray3)">Mais um motivo financeiro para agir agora</div>
+          </div>
+        </div>
+        <div class="fap-card-body">
+          <p>Toda empresa CLT paga o <strong style="color:var(--white)">RAT (Risco Ambiental do Trabalho)</strong> sobre a folha de salários. O FAP é um multiplicador oficial (0,5 a 2,0) calculado anualmente pela Previdência Social com base no histórico de afastamentos de cada estabelecimento.</p>
+          <div class="fap-rates">
+            <div class="fap-rate bad"><strong>FAP 2,0</strong> → paga o <strong>dobro</strong> do RAT (alto índice de afastamentos)</div>
+            <div class="fap-rate good"><strong>FAP 0,5</strong> → paga a <strong>metade</strong> do RAT (baixa acidentalidade)</div>
+          </div>
+          <div class="fap-highlight">Em folha de R$ 500k/mês com alíquota de 2% — diferença anual entre FAP máximo e mínimo: <strong>R$ 120.000.</strong></div>
+        </div>
+        <div class="fap-footer">O INTEGRA reduz afastamentos por burnout, doenças crônicas e saúde mental — os mesmos eventos que elevam o FAP. Menos afastamentos = FAP menor = folha mais barata.</div>
+      </div>
+
+      <!-- Lei 14831 -->
+      <div class="lei-card">
+        <div class="lei-head">
+          <h3>Lei 14.831/2024</h3>
+          <span>Certificado Empresa Promotora da Saúde Mental</span>
+        </div>
+        <div class="lei-intro">Sancionada em março de 2024, a lei cria certificação federal concedida a empresas com práticas comprovadas de promoção da saúde mental. <strong>Validade de 2 anos. Uso autorizado em campanhas e materiais institucionais.</strong></div>
+        <div class="lei-beneficios">
+          <div class="lei-ben"><h5>Reputação e Credibilidade</h5><p>Reconhecimento público pelo cuidado com pessoas. Credibilidade com clientes, parceiros e investidores.</p></div>
+          <div class="lei-ben"><h5>Atração de Talentos</h5><p>Profissionais qualificados preferem empresas certificadas. Menor rotatividade e custo de reposição.</p></div>
+          <div class="lei-ben"><h5>Produtividade Sustentável</h5><p>Menos absenteísmo e presenteísmo, elevando a entrega consistente das equipes.</p></div>
+          <div class="lei-ben"><h5>Diferencial Competitivo</h5><p>Certificado aplicável em licitações, employer branding e parcerias corporativas.</p></div>
+        </div>
+        <div class="lei-footer">O INTEGRA cobre os 3 pilares exigidos: promoção da saúde mental, bem-estar dos colaboradores e transparência com documentação auditável. Em 3 meses, sua empresa estará pronta para solicitar o certificado.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTIMENTO -->
+<section id="investimento">
+  <div class="container">
+    <div class="section-label">
+      <div class="num">6</div>
+      <h2>Investimento</h2>
+    </div>
+    <p style="color:var(--gray3);margin-bottom:2.5rem;max-width:680px">
+      Todos os planos incluem os 4 entregáveis para o PGR. O investimento é contratado por grupo, com valor fixo por faixa.
+    </p>
+
+    <div class="planos-desc">
+      <div class="plano-desc-card essencial">
+        <h3>ESSENCIAL</h3>
+        <div class="plano-meta">2 sessões/mês</div>
+        <div class="plano-meta" style="font-size:.85rem;font-weight:400">1 liderança + 1 saúde</div>
+        <div class="plano-fmt">100% online</div>
+      </div>
+      <div class="plano-desc-card integral">
+        <h3>INTEGRAL</h3>
+        <div class="plano-meta">4 sessões/mês</div>
+        <div class="plano-meta" style="font-size:.85rem;font-weight:400">2 liderança + 2 saúde</div>
+        <div class="plano-fmt">Híbrido: 2 online + 2 presenciais</div>
+      </div>
+      <div class="plano-desc-card premium">
+        <h3>PREMIUM</h3>
+        <div class="plano-meta">4 sessões/mês</div>
+        <div class="plano-meta" style="font-size:.85rem;font-weight:400">2 liderança + 2 saúde</div>
+        <div class="plano-fmt">100% presencial</div>
+      </div>
+    </div>
+
+    <table class="preco-table">
+      <thead>
+        <tr>
+          <th>Faixa de Grupo</th>
+          <th>ESSENCIAL</th>
+          <th>INTEGRAL</th>
+          <th>PREMIUM</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Individual (1 executivo)</td>
+          <td><span class="price-val">R$ 1.800/mês</span><span class="price-sub">R$ 5.400 em 3 meses</span></td>
+          <td class="col-integral"><span class="price-val">R$ 3.200/mês</span><span class="price-sub">R$ 9.600 em 3 meses</span></td>
+          <td><span class="price-val">R$ 5.500/mês</span><span class="price-sub">R$ 16.500 em 3 meses</span></td>
+        </tr>
+        <tr>
+          <td>Grupo de 2 a 5 executivos</td>
+          <td><span class="price-val">R$ 2.800/mês</span><span class="price-sub">R$ 8.400 em 3 meses</span></td>
+          <td class="col-integral"><span class="price-val">R$ 5.500/mês</span><span class="price-sub">R$ 16.500 em 3 meses</span></td>
+          <td><span class="price-val">R$ 9.000/mês</span><span class="price-sub">R$ 27.000 em 3 meses</span></td>
+        </tr>
+        <tr>
+          <td>Grupo de 6 a 10 executivos</td>
+          <td><span class="price-val">R$ 4.200/mês</span><span class="price-sub">R$ 12.600 em 3 meses</span></td>
+          <td class="col-integral"><span class="price-val">R$ 8.000/mês</span><span class="price-sub">R$ 24.000 em 3 meses</span></td>
+          <td><span class="price-val">R$ 13.000/mês</span><span class="price-sub">R$ 39.000 em 3 meses</span></td>
+        </tr>
+        <tr>
+          <td>Grupo de 11 a 15 executivos</td>
+          <td><span class="price-val">R$ 5.500/mês</span><span class="price-sub">R$ 16.500 em 3 meses</span></td>
+          <td class="col-integral"><span class="price-val">R$ 10.500/mês</span><span class="price-sub">R$ 31.500 em 3 meses</span></td>
+          <td><span class="price-val">R$ 17.000/mês</span><span class="price-sub">R$ 51.000 em 3 meses</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Modalidade C -->
+    <div class="modal-c">
+      <div class="modal-c-head">
+        <h3>Modalidade C: Diagnóstico Rápido para o PGR</h3>
+        <p>Para empresas que precisam de conformidade documental imediata com a NR-1, sem o programa completo. Entrega E1 (Inventário) e E3 (Plano de Ação) — os dois documentos obrigatórios pelo subitem 1.5.7.1.</p>
+      </div>
+      <div class="modal-c-body">
+        <div class="modal-c-row">
+          <h4>Até 5 executivos</h4>
+          <p>Instrumento diagnóstico integrado (13 fatores MTE). Relatório técnico por executivo com pontuação quantitativa. Plano de Ação 5W2H. Entrega em até 15 dias úteis. Online.</p>
+          <div class="modal-c-price">R$ 4.500<span>Entrega única</span></div>
+        </div>
+        <div class="modal-c-row">
+          <h4>6 a 20 executivos</h4>
+          <p>Mesmo escopo com relatório consolidado adicional para o PGR. Recomendado para conformidade urgente. Formato online.</p>
+          <div class="modal-c-price">R$ 7.500 a R$ 12.000<span>Entrega única</span></div>
+        </div>
+      </div>
+      <div class="modal-c-nota">
+        <strong>Condições de parcelamento e desconto</strong> para contratos anuais ou contratação de múltiplas modalidades sob consulta.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRÓXIMOS PASSOS -->
+<section id="passos">
+  <div class="container">
+    <div class="section-label">
+      <div class="num">7</div>
+      <h2>Próximos Passos</h2>
+    </div>
+    <div class="passos-list">
+      <div class="passo">
+        <div class="passo-num">01</div>
+        <div class="passo-body">
+          <h4>Reunião de alinhamento sem custo</h4>
+          <p>Apresentação da proposta, definição da modalidade mais adequada e esclarecimento de dúvidas. Formato online. Sem compromisso.</p>
+        </div>
+      </div>
+      <div class="passo">
+        <div class="passo-num">02</div>
+        <div class="passo-body">
+          <h4>Aplicação do Diagnóstico Integrado</h4>
+          <p>Os executivos indicados respondem ao instrumento diagnóstico INTEGRA, cobrindo os 13 fatores psicossociais MTE e os 5 eixos de saúde. Entrega do relatório E1 ao responsável pelo PGR da empresa.</p>
+        </div>
+      </div>
+      <div class="passo">
+        <div class="passo-num">03</div>
+        <div class="passo-body">
+          <h4>Início da Jornada</h4>
+          <p>Primeira sessão com cada especialista no Mês 1, conforme o plano contratado. Plano de Ação (E3) elaborado e assinado.</p>
+        </div>
+      </div>
+      <div class="passo">
+        <div class="passo-num" style="background:var(--bg);color:var(--gold-lt)">04</div>
+        <div class="passo-body">
+          <h4>Entrega Contínua ao PGR</h4>
+          <p>Ao longo dos 3 meses, os entregáveis E1 a E4 são emitidos e entregues ao responsável pelo GRO da empresa para inserção no PGR, garantindo conformidade documentada e auditável pela Inspeção do Trabalho.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="cta" style="padding:7rem 0">
+  <div class="container">
+    <div class="cta-inner">
+      <h2>Pronto para proteger sua empresa<br>e transformar suas lideranças?</h2>
+      <p>Agende uma reunião de alinhamento gratuita. Sem compromisso. Em 30 minutos você entende exatamente como o INTEGRA se encaixa na realidade da sua empresa.</p>
+      <div class="cta-ctas">
+        <a href="mailto:contato@mentoriaintegra.com.br" class="btn-primary">Agendar reunião gratuita</a>
+        <a href="https://mentoriaintegra.com.br" class="btn-ghost" target="_blank">mentoriaintegra.com.br</a>
+      </div>
+      <div class="cta-detail">
+        Proposta com validade de 30 dias · Belo Horizonte · MG · <a href="mailto:contato@mentoriaintegra.com.br">contato@mentoriaintegra.com.br</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">INTEGRA</div>
+        <div class="footer-info">Programa de Liderança e Saúde Integral · <a href="https://mentoriaintegra.com.br">mentoriaintegra.com.br</a></div>
+        <div class="footer-info" style="margin-top:.3rem">Belo Horizonte · Minas Gerais · Brasil · CRN + CREF</div>
+      </div>
+      <div class="footer-badges">
+        <span class="badge badge-gold">NR-1</span>
+        <span class="badge badge-teal">Lei 14.831/2024</span>
+        <span class="badge badge-white">FAP</span>
+        <span class="badge badge-white">PGR</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Intersection Observer para animar elementos ao entrar na tela
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll(
+  '.spec-card, .pilar-card, .eixo-item, .fator-card, .entregavel, .impacto-card, .passo, .stat-box'
+).forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity .5s ease, transform .5s ease';
+  observer.observe(el);
+});
+
+// Nav highlight ativo
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + current ? 'var(--gold-lt)' : '';
+  });
+});
+</script>
+</body>
+</html>
